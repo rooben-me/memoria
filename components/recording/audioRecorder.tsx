@@ -1,16 +1,50 @@
+'use client'
 
-import  AudioRecorder from '../components/recording/audioRecorder';
+import { useEffect } from "react";
+// @ts-ignore
+import { useVoiceVisualizer, VoiceVisualizer } from "react-voice-visualizer";
 
-const  Home = () => {
-  return(
-    <>
-      <AudioRecorder/>
-    </>
-    
-  )
+const  AudioRecorder = () => {
+  // Initialize the recorder controls using the hook
+  const recorderControls = useVoiceVisualizer();
+  const {
+      // ... (Extracted controls and states, if necessary)
+      recordedBlob,
+      error,
+      audioRef,
+  } = recorderControls;
+
+  // Get the recorded audio blob
+  useEffect(() => {
+      if (!recordedBlob) return;
+
+      console.log(recordedBlob);
+  }, [recordedBlob, error]);
+
+  // Get the error when it occurs
+  useEffect(() => {
+      if (!error) return;
+
+      console.error(error);
+//       curl --request POST \
+//      --url https://api.runpod.ai/v2/ch8rtrwdiuiaef/runsync \
+//      --header "accept: application/json" \
+//      --header "authorization: D1LJGJTLJCUKU0NOWC33QORU128BMMU6583E20PT" \
+//      --header "content-type: application/json" \
+//      --data '
+// {
+//     "input": {
+//         "audio": "https://github.com/runpod-workers/sample-inputs/raw/main/audio/gettysburg.wav"
+//     }
+// }
+  }, [error]);
+
+  return (
+      <VoiceVisualizer ref={audioRef} controls={recorderControls} />
+  );
 }
 
-export default Home;
+export default AudioRecorder;
 
 // export default function Home() {
 //   return (
